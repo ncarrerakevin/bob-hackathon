@@ -3,6 +3,8 @@
 .env.local
 .env.*.local
 *.env
+backend/.env
+frontend/.env
 
 # Dependencias
 node_modules/

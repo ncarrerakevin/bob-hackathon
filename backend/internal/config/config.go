@@ -12,6 +12,8 @@ type Config struct {
 	GeminiModel     string
 	Port            string
 	BOBAPIBaseURL   string
+	CORSOrigins     string
+	FrontendURL     string
 }
 
 var AppConfig *Config
@@ -27,6 +29,8 @@ func LoadConfig() {
 		GeminiModel:   getEnv("GEMINI_MODEL", "gemini-2.0-flash-exp"),
 		Port:          getEnv("PORT", "3000"),
 		BOBAPIBaseURL: getEnv("BOB_API_BASE_URL", "https://apiv3.somosbob.com/v3"),
+		CORSOrigins:   getEnv("CORS_ORIGINS", "http://localhost:5173,http://localhost:3000"),
+		FrontendURL:   getEnv("FRONTEND_URL", "http://localhost:5173"),
 	}
 
 	if AppConfig.GeminiAPIKey == "" {

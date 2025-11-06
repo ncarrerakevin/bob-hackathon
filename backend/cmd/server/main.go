@@ -7,6 +7,7 @@ import (
 	"bob-hackathon/internal/services"
 	"fmt"
 	"log"
+	"strings"
 	"time"
 
 	"github.com/gin-contrib/cors"
@@ -28,8 +29,9 @@ func main() {
 	router := gin.Default()
 
 	// Configurar CORS
+	corsOrigins := strings.Split(config.AppConfig.CORSOrigins, ",")
 	router.Use(cors.New(cors.Config{
-		AllowOrigins:     []string{"http://localhost:5173", "http://localhost:3000"},
+		AllowOrigins:     corsOrigins,
 		AllowMethods:     []string{"GET", "POST", "PUT", "DELETE", "OPTIONS"},
 		AllowHeaders:     []string{"Origin", "Content-Type", "Accept", "Authorization"},
 		ExposeHeaders:    []string{"Content-Length"},

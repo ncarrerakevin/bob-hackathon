@@ -115,3 +115,6 @@
 00:52:18.520 [Engine INFO] [EVENTO] *events.BusinessName
 00:52:18.560 [Engine INFO] [IN] [PRIVADO] Chat:51958662499@s.whatsapp.net | De:51958662499:88@s.whatsapp.net | ID:3FEA3C2BA7861369F73F | Texto:"hola"
 2025/11/06 00:52:18 [OnMessage] chat=51958662499@s.whatsapp.net from=51958662499:88@s.whatsapp.net id=3FEA3C2BA7861369F73F
+00:52:32.408 [Engine INFO] [OUT] [PRIVADO] To:51958662499@s.whatsapp.net | ID:3EB09378FCB9F325D8BDFA | Texto:"¡Hola! Bienvenido a BOB Subastas. Soy tu asistente virtual. ¿En qué puedo ayudar…"
+00:52:32.758 [Engine INFO] [RCPT] [PRIVADO] Chat:51958662499@s.whatsapp.net | Tipo:ENTREGADO | MsgID:3EB09378FCB9F325D8BDFA
+2025/11/06 00:52:32 [OnReceipt] chat=51958662499@s.whatsapp.net ids=[3EB09378FCB9F325D8BDFA] type=

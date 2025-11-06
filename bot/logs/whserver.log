@@ -166,3 +166,9 @@
 2025/11/06 00:52:18 [INFO] agg_window_start msg ventana de espera de mensajes inicializada, esperando chat 51958662499@s.whatsapp.net ventana_seg 5 mensajes_acumulados 0
 2025/11/06 00:52:18 [INFO] agg_window_reset_message msg detectado nuevo mensaje dentro de la ventana de espera de mensajes, reiniciando tiempo de espera chat 51958662499@s.whatsapp.net ventana_seg 5 mensajes_acumulados 1
 2025/11/06 00:52:18 [INFO] message chat 51958662499@s.whatsapp.net from 51958662499:88@s.whatsapp.net text hola text_len 4
+2025/11/06 00:52:27 [INFO] bob_backend_reply from 51958662499:88@s.whatsapp.net score 0 category cold reply_len 224
+2025/11/06 00:52:32 [INFO] event type message dir out chat 51958662499@s.whatsapp.net sender  msg_id 3EB09378FCB9F325D8BDFA
+2025/11/06 00:52:32 [INFO] reply_bob_backend chat 51958662499@s.whatsapp.net count 1 reply_len 224 reply_preview ¡Hola! Bienvenido a BOB Subastas. Soy tu asistente virtual. ¿En qué puedo ayudarte hoy? Por ejemplo, puedes preguntarme … t_pre_delay_ms 900 t_typing_ms 4000
+2025/11/06 00:52:32 [INFO] filtered reason direction_out chat 51958662499@s.whatsapp.net
+2025/11/06 00:52:32 [INFO] event type receipt dir  chat 51958662499@s.whatsapp.net sender  msg_id 
+2025/11/06 00:52:32 [INFO] filtered reason filter_chain_reject dir  chat 51958662499@s.whatsapp.net from 

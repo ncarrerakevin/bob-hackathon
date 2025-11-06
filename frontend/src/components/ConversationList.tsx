@@ -17,7 +17,22 @@ export default function ConversationList() {
       console.log(data);
 
       if (data.success) {
-        setConversations(data.leads || []);
+        // Mapear leads a formato de conversaciones
+        const mappedConversations = (data.leads || []).map((lead: any) => ({
+          id: lead.sessionId,
+          name: `Usuario ${lead.sessionId.substring(0, 8)}`,
+          avatar: "/default-avatar.png",
+          lastMessage: lead.lastMessage || "Sin mensajes",
+          time: new Date(lead.updatedAt).toLocaleTimeString('es-PE', {
+            hour: '2-digit',
+            minute: '2-digit'
+          }),
+          unread: 0,
+          active: false,
+          category: lead.category,
+          score: lead.score,
+        }));
+        setConversations(mappedConversations);
       } else {
         throw new Error(data.error || "Error desconocido");
       }

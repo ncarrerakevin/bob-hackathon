@@ -114,7 +114,7 @@ usuario → orchestrator agent (routing + spam detection)
 
 ## api endpoints
 
-total: 13 endpoints activos
+total: 18 endpoints activos
 
 ### chat / conversacion
 ```bash
@@ -159,6 +159,29 @@ get /api/vehicles?marca=toyota&limit=10
 
 # vehiculo especifico
 get /api/vehicles/:id
+```
+
+### administracion
+```bash
+# subir csv de faqs (usuarios no tecnicos pueden actualizar desde excel)
+post /api/admin/faqs/upload
+content-type: multipart/form-data
+body: file=faqs.csv
+
+# descargar template csv
+get /api/admin/faqs/template
+
+# descargar faqs actuales como csv
+get /api/admin/faqs/download
+
+# obtener prompts de todos los agentes
+get /api/admin/prompts
+
+# actualizar prompt de un agente (orchestrator, faq, auction, scoring)
+put /api/admin/prompts/:agent
+{
+  "prompt": "nuevo prompt personalizado aqui"
+}
 ```
 
 ### health

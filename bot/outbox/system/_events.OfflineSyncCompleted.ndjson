@@ -46,3 +46,7 @@
 {"event_type":"*events.OfflineSyncCompleted","event_raw":null,"extra":{"lang":"es","tenant":"acme"},"at":"2025-11-05T04:02:47Z"}
 {"event_type":"*events.OfflineSyncCompleted","event_raw":null,"extra":{"lang":"es","tenant":"acme"},"at":"2025-11-05T16:01:49Z"}
 {"event_type":"*events.OfflineSyncCompleted","event_raw":null,"extra":{"lang":"es","tenant":"acme"},"at":"2025-11-05T16:33:29Z"}
+{"event_type":"*events.OfflineSyncCompleted","event_raw":null,"extra":{"lang":"es","tenant":"acme"},"at":"2025-11-06T05:08:44Z"}
+{"event_type":"*events.OfflineSyncCompleted","event_raw":null,"extra":{"lang":"es","tenant":"acme"},"at":"2025-11-06T05:16:24Z"}
+{"event_type":"*events.OfflineSyncCompleted","event_raw":null,"extra":{"lang":"es","tenant":"acme"},"at":"2025-11-06T05:21:33Z"}
+{"event_type":"*events.OfflineSyncCompleted","event_raw":null,"extra":{"lang":"es","tenant":"acme"},"at":"2025-11-06T05:23:15Z"}

@@ -981,7 +981,7 @@ func init() {
 }
 
 func main() {
-	_ = godotenv.Load("/home/investigadorinexperto/Negocios/bot/.env")
+	_ = godotenv.Load("/home/ivnx/labs/bob-hackathon/bot/.env")
 	cfg := config.Load()
 	log.Println("DEBUG secret_len:", len(cfg.WebhookSecret))
 

@@ -1348,3 +1348,54 @@
 11:33:29.014 [Engine INFO] Successfully authenticated
 11:33:29.795 [Engine INFO] [ESTADO] Autenticado y CONECTADO.
 11:33:29.907 [Engine INFO] [EVENTO] *events.OfflineSyncCompleted
+
+===== 2025-11-06 00:08:42 :: START whbot =====
+00:08:43.955 [Engine INFO] Successfully authenticated
+00:08:44.497 [Engine INFO] [ESTADO] Autenticado y CONECTADO.
+00:08:44.779 [Engine INFO] [EVENTO] *events.OfflineSyncCompleted
+00:08:46.251 [Engine WARN] webhook post failed: webhook non-2xx: 401
+00:08:46.536 [Engine WARN] webhook post failed: webhook non-2xx: 401
+00:14:37.056 [Engine INFO] [PRESENCIA][CHAT] Chat:280715254067228@s.whatsapp.net | COMPOSING
+00:14:38.704 [Engine INFO] [IN] [PRIVADO] Chat:51977425547@s.whatsapp.net | De:51977425547:75@s.whatsapp.net | ID:3EB08A7AE2BD2A9FCC597B | Texto:"hola"
+2025/11/06 00:14:38 [OnMessage] chat=51977425547@s.whatsapp.net from=51977425547:75@s.whatsapp.net id=3EB08A7AE2BD2A9FCC597B
+00:14:38.831 [Engine WARN] webhook post failed: webhook non-2xx: 401
+00:14:40.460 [Engine WARN] webhook post failed: webhook non-2xx: 401
+00:14:47.518 [Engine INFO] [PRESENCIA][CHAT] Chat:280715254067228@s.whatsapp.net | COMPOSING
+00:14:48.329 [Engine INFO] [IN] [PRIVADO] Chat:51977425547@s.whatsapp.net | De:51977425547:75@s.whatsapp.net | ID:3EB0FE7BE69483C94BD4DA | Texto:"hola"
+2025/11/06 00:14:48 [OnMessage] chat=51977425547@s.whatsapp.net from=51977425547:75@s.whatsapp.net id=3EB0FE7BE69483C94BD4DA
+00:14:49.272 [Engine WARN] webhook post failed: webhook non-2xx: 401
+00:14:50.082 [Engine WARN] webhook post failed: webhook non-2xx: 401
+00:16:20.566 [Engine/Socket WARN] Error sending close to websocket: failed to close WebSocket: failed to read frame header: EOF
+
+===== 2025-11-06 00:16:22 :: START whbot =====
+00:16:23.846 [Engine INFO] Successfully authenticated
+00:16:24.062 [Engine INFO] [ESTADO] Autenticado y CONECTADO.
+00:16:24.088 [Engine INFO] [EVENTO] *events.OfflineSyncCompleted
+00:16:25.818 [Engine WARN] webhook post failed: webhook non-2xx: 401
+00:16:25.843 [Engine WARN] webhook post failed: webhook non-2xx: 401
+00:21:26.070 [Engine/Socket WARN] Error sending close to websocket: failed to close WebSocket: failed to read frame header: EOF
+
+===== 2025-11-06 00:21:32 :: START whbot =====
+00:21:33.209 [Engine INFO] Successfully authenticated
+00:21:33.476 [Engine INFO] [ESTADO] Autenticado y CONECTADO.
+00:21:33.486 [Engine INFO] [EVENTO] *events.OfflineSyncCompleted
+00:21:35.229 [Engine WARN] webhook post failed: webhook non-2xx: 401
+00:21:35.242 [Engine WARN] webhook post failed: webhook non-2xx: 401
+00:23:10.875 [Engine/Socket WARN] Error sending close to websocket: failed to close WebSocket: failed to read frame header: EOF
+
+===== 2025-11-06 00:23:13 :: START whbot =====
+00:23:14.831 [Engine INFO] Successfully authenticated
+00:23:15.369 [Engine INFO] [ESTADO] Autenticado y CONECTADO.
+00:23:15.438 [Engine INFO] [EVENTO] *events.OfflineSyncCompleted
+00:23:22.168 [Engine INFO] [PRESENCIA][CHAT] Chat:280715254067228@s.whatsapp.net | COMPOSING
+00:23:22.959 [Engine INFO] [IN] [PRIVADO] Chat:51977425547@s.whatsapp.net | De:51977425547:75@s.whatsapp.net | ID:3EB0601F54B555CE9F78DD | Texto:"hola"
+2025/11/06 00:23:22 [OnMessage] chat=51977425547@s.whatsapp.net from=51977425547:75@s.whatsapp.net id=3EB0601F54B555CE9F78DD
+00:23:31.537 [Engine INFO] [OUT] [PRIVADO] To:51977425547@s.whatsapp.net | ID:3EB0AF814570BBBA79409D | Texto:"Lo siento, hubo un error procesando tu mensaje."
+00:23:31.882 [Engine INFO] [RCPT] [PRIVADO] Chat:51977425547@s.whatsapp.net | Tipo:ENTREGADO | MsgID:3EB0AF814570BBBA79409D
+2025/11/06 00:23:31 [OnReceipt] chat=51977425547@s.whatsapp.net ids=[3EB0AF814570BBBA79409D] type=
+00:23:32.087 [Engine INFO] [RCPT] [PRIVADO] Chat:51977425547@s.whatsapp.net | Tipo:LEÍDO | MsgID:3EB0AF814570BBBA79409D
+2025/11/06 00:23:32 [OnReceipt] chat=51977425547@s.whatsapp.net ids=[3EB0AF814570BBBA79409D] type=read
+00:23:33.263 [Engine INFO] [RCPT] [PRIVADO] Chat:280715254067228@s.whatsapp.net | Tipo:ENTREGADO | MsgID:3EB0AF814570BBBA79409D
+2025/11/06 00:23:33 [OnReceipt] chat=280715254067228@lid ids=[3EB0AF814570BBBA79409D] type=
+00:25:16.276 [Engine INFO] [PRESENCIA][CHAT] Chat:280715254067228@s.whatsapp.net | COMPOSING
+00:25:16.955 [Engine INFO] [PRESENCIA][CHAT] Chat:280715254067228@s.whatsapp.net | PAUSED

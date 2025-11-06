@@ -2014,3 +2014,45 @@
 2025/11/05 11:33:29 [INFO] filtered reason filter_chain_reject dir  chat  from 
 2025/11/05 11:33:29 [INFO] event type *events.OfflineSyncCompleted dir  chat  sender  msg_id 
 2025/11/05 11:33:29 [INFO] filtered reason filter_chain_reject dir  chat  from 
+
+===== 2025-11-06 00:08:42 :: START whserver =====
+2025/11/06 00:08:42 DEBUG secret_len: 0
+2025/11/06 00:08:42 [INFO] WH listening addr :9000
+2025/11/06 00:16:20 [INFO] graceful shutdown complete
+
+===== 2025-11-06 00:16:22 :: START whserver =====
+2025/11/06 00:16:22 DEBUG secret_len: 0
+2025/11/06 00:16:22 [INFO] WH listening addr :9000
+2025/11/06 00:21:26 [INFO] graceful shutdown complete
+
+===== 2025-11-06 00:21:32 :: START whserver =====
+2025/11/06 00:21:32 DEBUG secret_len: 0
+2025/11/06 00:21:32 [INFO] WH listening addr :9000
+2025/11/06 00:23:11 [INFO] graceful shutdown complete
+
+===== 2025-11-06 00:23:13 :: START whserver =====
+2025/11/06 00:23:13 DEBUG secret_len: 14
+2025/11/06 00:23:13 [INFO] WH listening addr :9000
+2025/11/06 00:23:15 [INFO] event type connected dir  chat  sender  msg_id 
+2025/11/06 00:23:15 [INFO] filtered reason filter_chain_reject dir  chat  from 
+2025/11/06 00:23:15 [INFO] event type *events.OfflineSyncCompleted dir  chat  sender  msg_id 
+2025/11/06 00:23:15 [INFO] filtered reason filter_chain_reject dir  chat  from 
+2025/11/06 00:23:22 [INFO] event type chat_presence dir  chat 280715254067228@s.whatsapp.net sender 280715254067228@lid msg_id 
+2025/11/06 00:23:22 [INFO] event type message dir in chat 51977425547@s.whatsapp.net sender 51977425547:75@s.whatsapp.net msg_id 3EB0601F54B555CE9F78DD
+2025/11/06 00:23:23 [INFO] markread_ok chat 51977425547@s.whatsapp.net msg_id 3EB0601F54B555CE9F78DD t_ms 327
+2025/11/06 00:23:23 [INFO] agg_window_start msg ventana de espera de mensajes inicializada, esperando chat 51977425547@s.whatsapp.net ventana_seg 5 mensajes_acumulados 0
+2025/11/06 00:23:23 [INFO] agg_window_reset_message msg detectado nuevo mensaje dentro de la ventana de espera de mensajes, reiniciando tiempo de espera chat 51977425547@s.whatsapp.net ventana_seg 5 mensajes_acumulados 1
+2025/11/06 00:23:23 [INFO] message chat 51977425547@s.whatsapp.net from 51977425547:75@s.whatsapp.net text hola text_len 4
+2025/11/06 00:23:29 [WARN] bob_backend_error err Post "http://localhost:3000/api/chat/message": dial tcp [::1]:3000: connect: connection refused
+2025/11/06 00:23:31 [INFO] event type message dir out chat 51977425547@s.whatsapp.net sender  msg_id 3EB0AF814570BBBA79409D
+2025/11/06 00:23:31 [INFO] reply_bob_backend chat 51977425547@s.whatsapp.net count 1 reply_len 47 reply_preview Lo siento, hubo un error procesando tu mensaje. t_pre_delay_ms 900 t_typing_ms 1384
+2025/11/06 00:23:31 [INFO] filtered reason direction_out chat 51977425547@s.whatsapp.net
+2025/11/06 00:23:31 [INFO] event type receipt dir  chat 51977425547@s.whatsapp.net sender  msg_id 
+2025/11/06 00:23:31 [INFO] filtered reason filter_chain_reject dir  chat 51977425547@s.whatsapp.net from 
+2025/11/06 00:23:32 [INFO] event type receipt dir  chat 51977425547@s.whatsapp.net sender  msg_id 
+2025/11/06 00:23:32 [INFO] filtered reason filter_chain_reject dir  chat 51977425547@s.whatsapp.net from 
+2025/11/06 00:23:33 [INFO] event type receipt dir  chat 280715254067228@s.whatsapp.net sender  msg_id 
+2025/11/06 00:23:33 [INFO] filtered reason filter_chain_reject dir  chat 280715254067228@s.whatsapp.net from 
+2025/11/06 00:25:16 [INFO] event type chat_presence dir  chat 280715254067228@s.whatsapp.net sender 280715254067228@lid msg_id 
+2025/11/06 00:25:16 [INFO] event type chat_presence dir  chat 280715254067228@s.whatsapp.net sender 280715254067228@lid msg_id 
+2025/11/06 00:25:16 [INFO] event_any type chat_presence chat 280715254067228@s.whatsapp.net from 280715254067228@lid

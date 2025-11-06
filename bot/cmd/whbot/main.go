@@ -13,7 +13,7 @@ import (
 )
 
 func main() {
-	_ = godotenv.Load("/home/investigadorinexperto/Negocios/bot/.env")
+	_ = godotenv.Load("/home/ivnx/labs/bob-hackathon/bot/.env")
 	cfgApp := config.Load()
 
 	// ====== Mapear config → engine.Config

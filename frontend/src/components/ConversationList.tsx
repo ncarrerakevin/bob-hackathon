@@ -1,12 +1,43 @@
-import React from 'react'
-import { conversations } from '../assets/data/mock'
+import React, { useEffect, useState } from "react";
+// import { conversations } from "../assets/data/mock";
 
 export default function ConversationList() {
+  const [isLoading, setIsLoading] = useState(false);
+  const [conversations, setConversations] = useState();
+  const getConversations = async () => {
+    try {
+      const response = await fetch("/api/chat/sessions", {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+
+      const data = await response.json();
+      console.log(data);
+
+      if (data.success) {
+      } else {
+        throw new Error(data.error || "Error desconocido");
+      }
+    } catch (error) {
+      console.error("Error sending message:", error);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    getConversations();
+  }, []);
+
   return (
     <main className="conversations">
       <div className="panel-section">
         <label className="search">
-          <div className="search__icon"><span className="material-symbols-outlined">search</span></div>
+          <div className="search__icon">
+            <span className="material-symbols-outlined">search</span>
+          </div>
           <input placeholder="Search conversations..." />
         </label>
       </div>
@@ -20,24 +51,41 @@ export default function ConversationList() {
       </div>
 
       <div className="convlist">
-        {conversations.map((c) => (
-          <div key={c.id} className={`conv-item ${c.active ? 'active' : ''}`}>
+        {conversations?.map((c) => (
+          <div key={c.id} className={`conv-item ${c.active ? "active" : ""}`}>
             <div className="conv-meta">
-              <div className="avatar" style={{width:48,height:48, backgroundImage:`url(${c.avatar})`}} />
-              <div className="col" style={{gap:4}}>
+              <div
+                className="avatar"
+                style={{
+                  width: 48,
+                  height: 48,
+                  backgroundImage: `url(${c.avatar})`,
+                }}
+              />
+              <div className="col" style={{ gap: 4 }}>
                 <p className="conv-name">{c.name}</p>
-                <p className={c.active ? 'text-primary' : 'conv-snippet'}>{c.lastMessage}</p>
+                <p className={c.active ? "text-primary" : "conv-snippet"}>
+                  {c.lastMessage}
+                </p>
               </div>
             </div>
-            <div className="col" style={{gap:6, alignItems:'flex-end'}}>
-              <p className="subtitle" style={{fontSize:12}}>{c.time}</p>
-              {typeof c.unread === 'number' && (
-                <div className={`badge ${c.unread && c.unread > 1 && !c.active ? 'red' : ''}`}>{c.unread}</div>
+            <div className="col" style={{ gap: 6, alignItems: "flex-end" }}>
+              <p className="subtitle" style={{ fontSize: 12 }}>
+                {c.time}
+              </p>
+              {typeof c.unread === "number" && (
+                <div
+                  className={`badge ${
+                    c.unread && c.unread > 1 && !c.active ? "red" : ""
+                  }`}
+                >
+                  {c.unread}
+                </div>
               )}
             </div>
           </div>
         ))}
       </div>
     </main>
-  )
+  );
 }

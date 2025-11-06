@@ -55,3 +55,4 @@
 {"event_type":"*events.OfflineSyncCompleted","event_raw":null,"extra":{"lang":"es","tenant":"acme"},"at":"2025-11-06T05:44:01Z"}
 {"event_type":"*events.OfflineSyncCompleted","event_raw":null,"extra":{"lang":"es","tenant":"acme"},"at":"2025-11-06T05:45:00Z"}
 {"event_type":"*events.OfflineSyncCompleted","event_raw":null,"extra":{"lang":"es","tenant":"acme"},"at":"2025-11-06T05:46:56Z"}
+{"event_type":"*events.OfflineSyncCompleted","event_raw":null,"extra":{"lang":"es","tenant":"acme"},"at":"2025-11-06T06:19:19Z"}

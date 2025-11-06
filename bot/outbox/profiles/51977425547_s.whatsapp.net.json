@@ -6,9 +6,9 @@
     "out.contacts_ndjson": "outbox/contacts/51977425547_s.whatsapp.net.ndjson"
   },
   "first_seen": "2025-11-02T19:31:56.486561522-05:00",
-  "last_conn": "2025-11-06T00:54:48.391148514-05:00",
+  "last_conn": "2025-11-06T01:19:24.753063969-05:00",
   "last_chat": "51977425547@s.whatsapp.net",
-  "last_text": "necesito un auto",
+  "last_text": "hola",
   "media": {
     "in": [
       {
@@ -39,10 +39,10 @@
     "until": "0001-01-01T00:00:00Z"
   },
   "metrics": {
-    "msg_in": 19,
-    "msg_out": 13,
-    "last_msg_at": "2025-11-06T00:55:18.672659893-05:00",
-    "last_msg_id": "3EB09B31FCB2A32DCA78F0",
+    "msg_in": 20,
+    "msg_out": 14,
+    "last_msg_at": "2025-11-06T01:19:55.655451691-05:00",
+    "last_msg_id": "3EB0D2C8C96FB9C0163823",
     "streak_days": 1,
     "streak_last_day": "2025-11-06"
   }

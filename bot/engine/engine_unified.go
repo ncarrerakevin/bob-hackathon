@@ -392,26 +392,30 @@ func kindOfChat(j types.JID) string {
 	}
 	return "PRIVADO"
 }
+func storageChatJID(s string) string {
+    if s == "" {
+        return ""
+    }
+    if strings.HasSuffix(s, "@lid") {
+        return strings.TrimSuffix(s, "@lid") + "@s.whatsapp.net"
+    }
+    return s
+}
 
 // ===== Normalización de JID =====
+// Preserva @lid/@s.whatsapp.net/@g.us/status. Si no hay '@', asume 1:1 clásico.
 func canonicalChatJID(s string) string {
-	if s == "" {
-		return s
-	}
-	s = strings.TrimSpace(s)
-	if s == "status@broadcast" {
-		return s
-	}
-	if strings.Contains(s, "@") {
-		if strings.HasSuffix(s, "@lid") {
-			return strings.TrimSuffix(s, "@lid") + "@s.whatsapp.net"
-		}
-		if strings.HasSuffix(s, "@g.us") {
-			return s
-		}
-		return s
-	}
-	return s + "@s.whatsapp.net"
+    if s == "" {
+        return ""
+    }
+    s = strings.TrimSpace(s)
+    if s == "status@broadcast" {
+        return s
+    }
+    if strings.Contains(s, "@") {
+        return s
+    }
+    return s + "@s.whatsapp.net"
 }
 
 // ===== Dedupe simple para RCPT =====
@@ -941,7 +945,7 @@ func (e *Engine) RunEventLoop(ctx context.Context, h Handlers) {
 					ts = time.Now()
 				}
 				_ = e.msgStore.SaveMessage(
-					env.ChatJID,
+					storageChatJID(env.ChatJID),
 					env.MessageID,
 					env.SenderJID,
 					env.Text,
@@ -1151,11 +1155,20 @@ func (e *Engine) SendText(ctx context.Context, to types.JID, text string) (strin
 
 		// Persistencia OUT
 		if e.msgStore != nil {
-			_ = e.msgStore.SaveMessage(to.String(), id, "me", text, time.Now(), true, sql.NullString{}, sql.NullString{}, sql.NullString{})
+			_ = e.msgStore.SaveMessage(
+				storageChatJID(to.String()),
+				id,
+				"me",
+				text,
+				time.Now(),
+				true,
+				sql.NullString{},                      // media_type
+				sql.NullString{},                      // filename
+				sql.NullString{},                      // url
+			)
 		}
 		// Forward OUT a carpeta/webhook unificado por contacto
 		e.forwardOutgoing(to, id, text, "", "", "")
-
 		return id, nil
 	}
 	fn := WithRetry(3, 250*time.Millisecond, WithRateLimit(e.limiterSend, base))
@@ -1253,15 +1266,21 @@ func (e *Engine) SendMedia(ctx context.Context, to types.JID, in MediaInput) (st
 		prefix := colorize(ansiOUT, "[OUT]") + " "
 		e.humanInfof(prefix+"[%s] To:%s | ID:%s | MEDIA:%s | Caption:\"%s\"", k, colorize(ansiBold, to.String()), id, mt, short(in.Caption, 60))
 
-		// Persistencia OUT
+		// Persistencia OUT (media)
 		if e.msgStore != nil {
 			_ = e.msgStore.SaveMessage(
-				to.String(), id, "me", in.Caption, time.Now(), true,
-				sql.NullString{String: strings.ToLower(mt), Valid: true},
-				sql.NullString{String: in.FileName, Valid: in.FileName != ""},
-				sql.NullString{},
+				storageChatJID(to.String()),
+				id,
+				"me",
+				in.Caption,
+				time.Now(),
+				true,
+				sql.NullString{String: strings.ToLower(mt), Valid: true}, // media_type correcto
+				sql.NullString{String: in.FileName, Valid: in.FileName != ""}, // filename
+				sql.NullString{}, // url (si no quieres persistir el CDN aquí)
 			)
 		}
+
 
 		// Construir ticket/mediaMap desde respUp (subida) y metadatos locales
 		mediaMap := map[string]any{
@@ -1493,15 +1512,19 @@ func (e *Engine) StartREST() {
 		var to types.JID
 		rcpt := canonicalChatJID(req.Recipient)
 		if strings.Contains(rcpt, "@") {
-			j, err := types.ParseJID(rcpt)
-			if err != nil {
-				http.Error(w, "bad jid", http.StatusBadRequest)
-				return
-			}
-			to = j
+		    if j, err := types.ParseJID(rcpt); err == nil {
+		        to = j
+		    } else if strings.HasSuffix(rcpt, "@lid") {
+		        parts := strings.SplitN(rcpt, "@", 2)
+		        to = types.JID{User: parts[0], Server: "lid"}
+		    } else {
+		        http.Error(w, "bad jid", http.StatusBadRequest)
+		        return
+		    }
 		} else {
-			to = types.JID{User: rcpt, Server: "s.whatsapp.net"}
+		    to = types.JID{User: rcpt, Server: "s.whatsapp.net"}
 		}
+
 
 		// Enviar texto o media
 		var id string
@@ -1570,8 +1593,13 @@ func (e *Engine) StartREST() {
 		rcpt := canonicalChatJID(req.Recipient)
 		j, err := types.ParseJID(rcpt)
 		if err != nil {
-			http.Error(w, "bad jid", http.StatusBadRequest)
-			return
+		    if strings.HasSuffix(rcpt, "@lid") {
+		        parts := strings.SplitN(rcpt, "@", 2)
+		        j = types.JID{User: parts[0], Server: "lid"}
+		    } else {
+		        http.Error(w, "bad jid", http.StatusBadRequest)
+		        return
+		    }
 		}
 		to := j
 
@@ -1611,9 +1639,15 @@ func (e *Engine) StartREST() {
 		rcpt := canonicalChatJID(req.Recipient)
 		j, err := types.ParseJID(rcpt)
 		if err != nil {
-			http.Error(w, "bad jid", http.StatusBadRequest)
-			return
+		    if strings.HasSuffix(rcpt, "@lid") {
+		        parts := strings.SplitN(rcpt, "@", 2)
+		        j = types.JID{User: parts[0], Server: "lid"}
+		    } else {
+		        http.Error(w, "bad jid", http.StatusBadRequest)
+		        return
+		    }
 		}
+
 
 		var senderJ types.JID
 		if strings.TrimSpace(req.Sender) != "" {

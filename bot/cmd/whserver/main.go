@@ -363,10 +363,9 @@ func (r *SimpleRouter) OnMessage(ctx context.Context, e Envelope) {
 	}
 
 	// 5) Evita responder a LID raros en 1:1
-	if strings.Contains(e.SenderJID, "@lid") && !strings.Contains(e.ChatJID, "@g.us") {
-		return
+	if strings.TrimSpace(e.ChatJID) == "" || strings.TrimSpace(e.SenderJID) == "" {
+	    return
 	}
-
 	// 6) Adaptar envelope para el engine de reglas
 	env := rules.Envelope{
 		EventType: e.EventType,

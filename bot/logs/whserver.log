@@ -237,3 +237,61 @@
 2025/11/06 00:57:05 [INFO] filtered reason filter_chain_reject dir  chat 120363405974723838@g.us from 
 2025/11/06 00:57:55 [INFO] event type receipt dir  chat 120363405974723838@g.us sender  msg_id 
 2025/11/06 00:57:55 [INFO] filtered reason filter_chain_reject dir  chat 120363405974723838@g.us from 
+2025/11/06 01:16:13 [INFO] graceful shutdown complete
+
+===== 2025-11-06 01:19:17 :: START whserver =====
+2025/11/06 01:19:17 DEBUG secret_len: 14
+2025/11/06 01:19:17 [INFO] WH listening addr :9000
+2025/11/06 01:19:19 [INFO] event type *events.OfflineSyncCompleted dir  chat  sender  msg_id 
+2025/11/06 01:19:19 [INFO] event type connected dir  chat  sender  msg_id 
+2025/11/06 01:19:19 [INFO] filtered reason filter_chain_reject dir  chat  from 
+2025/11/06 01:19:19 [INFO] filtered reason filter_chain_reject dir  chat  from 
+2025/11/06 01:19:23 [INFO] event type chat_presence dir  chat 280715254067228@lid sender 280715254067228@lid msg_id 
+2025/11/06 01:19:24 [INFO] event type message dir in chat 51977425547@s.whatsapp.net sender 51977425547:75@s.whatsapp.net msg_id 3EB0D2C8C96FB9C0163823
+2025/11/06 01:19:24 [INFO] markread_ok chat 51977425547@s.whatsapp.net msg_id 3EB0D2C8C96FB9C0163823 t_ms 145
+2025/11/06 01:19:24 [INFO] agg_window_start msg ventana de espera de mensajes inicializada, esperando chat 51977425547@s.whatsapp.net ventana_seg 5 mensajes_acumulados 0
+2025/11/06 01:19:24 [INFO] agg_window_reset_message msg detectado nuevo mensaje dentro de la ventana de espera de mensajes, reiniciando tiempo de espera chat 51977425547@s.whatsapp.net ventana_seg 5 mensajes_acumulados 1
+2025/11/06 01:19:24 [INFO] message chat 51977425547@s.whatsapp.net from 51977425547:75@s.whatsapp.net text hola text_len 4
+2025/11/06 01:19:51 [INFO] bob_backend_reply from 51977425547:75@s.whatsapp.net score 1 category discarded reply_len 155
+2025/11/06 01:19:55 [INFO] reply_bob_backend chat 51977425547@s.whatsapp.net count 1 reply_len 155 reply_preview Hola de nuevo. Parece que tuvimos un problema antes al buscar subastas. ¿Te gustaría intentar buscar un auto otra vez o … t_pre_delay_ms 900 t_typing_ms 4000
+2025/11/06 01:19:55 [INFO] event type message dir out chat 51977425547@s.whatsapp.net sender  msg_id 3EB02B8A81D65BBA2D7F3E
+2025/11/06 01:19:55 [INFO] filtered reason direction_out chat 51977425547@s.whatsapp.net
+2025/11/06 01:19:56 [INFO] event type receipt dir  chat 51977425547@s.whatsapp.net sender  msg_id 
+2025/11/06 01:19:56 [INFO] filtered reason filter_chain_reject dir  chat 51977425547@s.whatsapp.net from 
+2025/11/06 01:19:56 [INFO] event type receipt dir  chat 280715254067228@lid sender  msg_id 
+2025/11/06 01:19:56 [INFO] filtered reason filter_chain_reject dir  chat 280715254067228@lid from 
+2025/11/06 01:20:09 [INFO] event type receipt dir  chat 51977425547@s.whatsapp.net sender  msg_id 
+2025/11/06 01:20:09 [INFO] filtered reason filter_chain_reject dir  chat 51977425547@s.whatsapp.net from 
+2025/11/06 01:23:22 [INFO] event type chat_presence dir  chat 10247959744612@lid sender 10247959744612@lid msg_id 
+2025/11/06 01:23:23 [INFO] event type message dir in chat 10247959744612@lid sender 10247959744612:89@lid msg_id 3EB0D484F3E982CBADE807
+2025/11/06 01:23:23 [INFO] markread_ok chat 10247959744612@lid msg_id 3EB0D484F3E982CBADE807 t_ms 2
+2025/11/06 01:23:23 [INFO] agg_window_start msg ventana de espera de mensajes inicializada, esperando chat 10247959744612@lid ventana_seg 5 mensajes_acumulados 0
+2025/11/06 01:23:23 [INFO] agg_window_reset_message msg detectado nuevo mensaje dentro de la ventana de espera de mensajes, reiniciando tiempo de espera chat 10247959744612@lid ventana_seg 5 mensajes_acumulados 1
+2025/11/06 01:23:23 [INFO] message chat 10247959744612@lid from 10247959744612:89@lid text pinga text_len 5
+2025/11/06 01:23:29 [INFO] event type chat_presence dir  chat 10247959744612@lid sender 10247959744612@lid msg_id 
+2025/11/06 01:23:29 [INFO] agg_window_start msg ventana de espera de mensajes inicializada, esperando chat 10247959744612@lid ventana_seg 5 mensajes_acumulados 0
+2025/11/06 01:23:29 [INFO] agg_window_reset_typing msg detectado que usuario está escribiendo; ventana de espera reiniciada chat 10247959744612@lid ventana_seg 5 mensajes_acumulados 0
+2025/11/06 01:23:31 [INFO] event type message dir in chat 10247959744612@lid sender 10247959744612:89@lid msg_id 3EB0DECF1B7C4A2B4D5547
+2025/11/06 01:23:31 [INFO] markread_ok chat 10247959744612@lid msg_id 3EB0DECF1B7C4A2B4D5547 t_ms 8
+2025/11/06 01:23:31 [INFO] agg_window_reset_message msg detectado nuevo mensaje dentro de la ventana de espera de mensajes, reiniciando tiempo de espera chat 10247959744612@lid ventana_seg 5 mensajes_acumulados 1
+2025/11/06 01:23:31 [INFO] message chat 10247959744612@lid from 10247959744612:89@lid text holaaaa text_len 7
+2025/11/06 01:23:33 [INFO] bob_backend_reply from 10247959744612:89@lid score 0 category cold reply_len 178
+2025/11/06 01:23:33 [INFO] event type chat_presence dir  chat 10247959744612@lid sender 10247959744612@lid msg_id 
+2025/11/06 01:23:33 [INFO] agg_window_reset_typing msg detectado que usuario está escribiendo; ventana de espera reiniciada chat 10247959744612@lid ventana_seg 5 mensajes_acumulados 1
+2025/11/06 01:23:34 [INFO] event type chat_presence dir  chat 10247959744612@lid sender 10247959744612@lid msg_id 
+2025/11/06 01:23:34 [INFO] event_any type chat_presence chat 10247959744612@lid from 10247959744612@lid
+2025/11/06 01:23:37 [INFO] event type message dir out chat 10247959744612@lid sender  msg_id 3EB09A299C36D6590D8B90
+2025/11/06 01:23:37 [INFO] reply_bob_backend chat 10247959744612@lid count 1 reply_len 178 reply_preview Lamentamos informarle que este tipo de lenguaje no es apropiado para nuestro servicio de atención. Por favor, formule su… t_pre_delay_ms 900 t_typing_ms 4000
+2025/11/06 01:23:37 [INFO] filtered reason direction_out chat 10247959744612@lid
+2025/11/06 01:23:38 [INFO] event type receipt dir  chat 10247959744612@lid sender  msg_id 
+2025/11/06 01:23:38 [INFO] filtered reason filter_chain_reject dir  chat 10247959744612@lid from 
+2025/11/06 01:23:38 [INFO] event type receipt dir  chat 10247959744612@lid sender  msg_id 
+2025/11/06 01:23:38 [INFO] filtered reason filter_chain_reject dir  chat 10247959744612@lid from 
+2025/11/06 01:23:43 [INFO] bob_backend_reply from 10247959744612:89@lid score 0 category cold reply_len 72
+2025/11/06 01:23:45 [INFO] event type message dir out chat 10247959744612@lid sender  msg_id 3EB03C05177E51CD64B638
+2025/11/06 01:23:45 [INFO] filtered reason direction_out chat 10247959744612@lid
+2025/11/06 01:23:45 [INFO] reply_bob_backend chat 10247959744612@lid count 1 reply_len 72 reply_preview ¡Hola! Gracias por contactar a BOB Subastas. ¿En qué puedo ayudarte hoy? t_pre_delay_ms 900 t_typing_ms 2236
+2025/11/06 01:23:46 [INFO] event type receipt dir  chat 10247959744612@lid sender  msg_id 
+2025/11/06 01:23:46 [INFO] filtered reason filter_chain_reject dir  chat 10247959744612@lid from 
+2025/11/06 01:24:31 [INFO] event type receipt dir  chat 10247959744612@lid sender  msg_id 
+2025/11/06 01:24:31 [INFO] filtered reason filter_chain_reject dir  chat 10247959744612@lid from 

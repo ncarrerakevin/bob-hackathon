@@ -103,6 +103,7 @@ func main() {
 		chatRoutes.POST("/message", chatController.SendMessage)
 		chatRoutes.POST("/score", chatController.GetScore)
 		chatRoutes.GET("/history/:sessionId", chatController.GetHistory)
+		chatRoutes.GET("/sessions", chatController.GetAllSessions)
 		chatRoutes.DELETE("/session/:sessionId", chatController.DeleteSession)
 	}
 

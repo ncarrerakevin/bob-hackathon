@@ -333,6 +333,16 @@ func (c *ChatController) GetHistory(ctx *gin.Context) {
 	})
 }
 
+func (c *ChatController) GetAllSessions(ctx *gin.Context) {
+	sessions := c.sessionService.GetAllSessions()
+
+	ctx.JSON(http.StatusOK, gin.H{
+		"success":  true,
+		"count":    len(sessions),
+		"sessions": sessions,
+	})
+}
+
 func (c *ChatController) DeleteSession(ctx *gin.Context) {
 	sessionID := ctx.Param("sessionId")
 

@@ -113,6 +113,18 @@ func (s *SessionService) GetMessages(sessionID string) []models.Message {
 	return session.Messages
 }
 
+func (s *SessionService) GetAllSessions() []*models.Session {
+	s.mu.RLock()
+	defer s.mu.RUnlock()
+
+	sessions := make([]*models.Session, 0, len(s.sessions))
+	for _, session := range s.sessions {
+		sessions = append(sessions, session)
+	}
+
+	return sessions
+}
+
 func (s *SessionService) UpdateScore(sessionID string, score int, category string) {
 	s.mu.Lock()
 	defer s.mu.Unlock()

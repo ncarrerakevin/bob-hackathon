@@ -6,7 +6,7 @@ export default function ConversationList() {
   const [conversations, setConversations] = useState();
   const getConversations = async () => {
     try {
-      const response = await fetch("/api/chat/sessions", {
+      const response = await fetch("/api/leads", {
         method: "GET",
         headers: {
           "Content-Type": "application/json",
@@ -17,11 +17,12 @@ export default function ConversationList() {
       console.log(data);
 
       if (data.success) {
+        setConversations(data.leads || []);
       } else {
         throw new Error(data.error || "Error desconocido");
       }
     } catch (error) {
-      console.error("Error sending message:", error);
+      console.error("Error getting conversations:", error);
     } finally {
       setIsLoading(false);
     }

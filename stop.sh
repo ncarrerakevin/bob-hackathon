@@ -1,8 +1,6 @@
 #!/bin/bash
 
 # Script para detener el sistema completo BOB Chatbot
-# Autor: Sistema Multiagente
-# Fecha: 2025-11-05
 
 echo "🛑 Deteniendo BOB Chatbot - Sistema Multiagente"
 echo "================================================"

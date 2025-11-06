@@ -47,3 +47,14 @@ tmp/
 temp/
 *.tmp
 outbox/
+# runtime / build / datos locales
+.run/
+bin/
+data/
+logs/
+outbox/
+*.pid
+*.log
+*.db
+*.ndjson
+*.json

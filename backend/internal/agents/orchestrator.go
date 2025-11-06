@@ -2,7 +2,6 @@ package agents
 
 import (
 	"bob-hackathon/internal/config"
-	"bob-hackathon/internal/models"
 	"context"
 	"encoding/json"
 	"fmt"

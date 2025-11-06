@@ -2,6 +2,7 @@ package agents
 
 import (
 	"bob-hackathon/internal/config"
+	"bob-hackathon/internal/models"
 	"bob-hackathon/internal/services"
 	"context"
 	"fmt"
@@ -36,7 +37,7 @@ func (f *FAQAgent) Name() string {
 }
 
 func (f *FAQAgent) Process(ctx context.Context, input *AgentInput) (*AgentOutput, error) {
-	faqs := f.faqService.Search("", "", input.Message)
+	faqs := f.faqService.SearchFAQs(input.Message, "", "")
 
 	if len(faqs) == 0 {
 		return &AgentOutput{
@@ -62,13 +63,13 @@ func (f *FAQAgent) Process(ctx context.Context, input *AgentInput) (*AgentOutput
 	}, nil
 }
 
-func (f *FAQAgent) buildPrompt(input *AgentInput, faqs []map[string]interface{}) string {
+func (f *FAQAgent) buildPrompt(input *AgentInput, faqs []models.FAQ) string {
 	faqContext := "\n\nFAQs RELEVANTES:\n"
 	for i, faq := range faqs {
 		if i >= 5 {
 			break
 		}
-		faqContext += fmt.Sprintf("\nP: %v\nR: %v\n", faq["pregunta"], faq["respuesta"])
+		faqContext += fmt.Sprintf("\nP: %s\nR: %s\n", faq.Pregunta, faq.Respuesta)
 	}
 
 	return fmt.Sprintf(`Eres el Agente de FAQ de BOB Subastas. Tu especialidad es responder preguntas frecuentes.

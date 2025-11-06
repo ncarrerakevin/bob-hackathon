@@ -36,11 +36,16 @@ func (a *AuctionAgent) Name() string {
 }
 
 func (a *AuctionAgent) Process(ctx context.Context, input *AgentInput) (*AgentOutput, error) {
-	vehicles, err := a.bobAPIService.GetVehicles(map[string]string{"limit": "10"})
+	vehicles, err := a.bobAPIService.GetSublots(false)
 	if err != nil {
 		return &AgentOutput{
 			Response: "Lo siento, tuve un problema consultando las subastas disponibles. ¿Podrías intentar de nuevo?",
 		}, nil
+	}
+
+	// Limitar a 10 vehículos
+	if len(vehicles) > 10 {
+		vehicles = vehicles[:10]
 	}
 
 	prompt := a.buildPrompt(input, vehicles)

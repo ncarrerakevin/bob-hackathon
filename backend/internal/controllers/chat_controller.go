@@ -1,8 +1,10 @@
 package controllers
 
 import (
+	"bob-hackathon/internal/agents"
 	"bob-hackathon/internal/models"
 	"bob-hackathon/internal/services"
+	"context"
 	"log"
 	"net/http"
 	"time"
@@ -11,13 +13,39 @@ import (
 )
 
 type ChatController struct {
-	geminiService  *services.GeminiService
+	orchestrator   agents.Agent
+	faqAgent       agents.Agent
+	auctionAgent   agents.Agent
+	scoringAgent   agents.Agent
 	sessionService *services.SessionService
 }
 
 func NewChatController() *ChatController {
+	orchestrator, err := agents.NewOrchestratorAgent()
+	if err != nil {
+		log.Fatalf("❌ Error creando OrchestratorAgent: %v", err)
+	}
+
+	faqAgent, err := agents.NewFAQAgent()
+	if err != nil {
+		log.Fatalf("❌ Error creando FAQAgent: %v", err)
+	}
+
+	auctionAgent, err := agents.NewAuctionAgent()
+	if err != nil {
+		log.Fatalf("❌ Error creando AuctionAgent: %v", err)
+	}
+
+	scoringAgent, err := agents.NewScoringAgent()
+	if err != nil {
+		log.Fatalf("❌ Error creando ScoringAgent: %v", err)
+	}
+
 	return &ChatController{
-		geminiService:  services.GetGeminiService(),
+		orchestrator:   orchestrator,
+		faqAgent:       faqAgent,
+		auctionAgent:   auctionAgent,
+		scoringAgent:   scoringAgent,
 		sessionService: services.GetSessionService(),
 	}
 }
@@ -38,54 +66,105 @@ func (c *ChatController) SendMessage(ctx *gin.Context) {
 	// Agregar mensaje del usuario
 	c.sessionService.AddMessage(session.SessionID, "user", req.Message)
 
-	// Procesar con Gemini
-	reply, err := c.geminiService.ProcessMessage(session.SessionID, req.Message)
+	// FASE 1: ORCHESTRATOR - Analiza intención y rutea
+	agentInput := &agents.AgentInput{
+		Message:             req.Message,
+		SessionID:           session.SessionID,
+		Channel:             req.Channel,
+		ConversationHistory: session.Messages,
+	}
+
+	orchestratorOutput, err := c.orchestrator.Process(context.Background(), agentInput)
 	if err != nil {
-		log.Printf("❌ Error al procesar mensaje: %v", err)
+		log.Printf("❌ Error en Orchestrator: %v", err)
 		ctx.JSON(http.StatusInternalServerError, gin.H{
 			"success": false,
-			"error":   "Error al procesar mensaje: " + err.Error(),
+			"error":   "Error procesando mensaje: " + err.Error(),
 		})
 		return
 	}
 
-	// Agregar respuesta del asistente
-	c.sessionService.AddMessage(session.SessionID, "assistant", reply)
+	var finalReply string
 
-	// Calcular score
-	scoreResponse, err := c.geminiService.CalculateScore(session.SessionID)
-	if err != nil {
-		log.Printf("Error al calcular score: %v", err)
-		scoreResponse = &models.ScoreResponse{
-			Score:    0,
-			Category: "cold",
+	// FASE 2: ROUTING - Según decisión del orchestrator
+	if orchestratorOutput.ShouldRoute {
+		var subAgentOutput *agents.AgentOutput
+
+		switch orchestratorOutput.RouteTo {
+		case "faq_agent":
+			log.Printf("🔀 Ruteando a FAQ Agent")
+			subAgentOutput, err = c.faqAgent.Process(context.Background(), agentInput)
+		case "auction_agent":
+			log.Printf("🔀 Ruteando a Auction Agent")
+			subAgentOutput, err = c.auctionAgent.Process(context.Background(), agentInput)
+		default:
+			log.Printf("⚠️ RouteTo desconocido: %s, usando respuesta del orchestrator", orchestratorOutput.RouteTo)
+			finalReply = orchestratorOutput.Response
+		}
+
+		if err != nil {
+			log.Printf("❌ Error en SubAgent: %v", err)
+			finalReply = orchestratorOutput.Response // Fallback a respuesta del orchestrator
+		} else if subAgentOutput != nil {
+			finalReply = subAgentOutput.Response
+		}
+	} else {
+		// El orchestrator maneja directamente (general, spam, ambiguo)
+		finalReply = orchestratorOutput.Response
+	}
+
+	// Agregar respuesta del asistente
+	c.sessionService.AddMessage(session.SessionID, "assistant", finalReply)
+
+	// FASE 3: SCORING - Calcular después de 3+ mensajes
+	var leadScore int
+	var category string
+
+	if len(session.Messages) >= 6 { // 3 pares user-assistant mínimo
+		log.Printf("📊 Calculando scoring con %d mensajes", len(session.Messages))
+
+		scoringOutput, err := c.scoringAgent.Process(context.Background(), agentInput)
+		if err != nil {
+			log.Printf("⚠️ Error en ScoringAgent: %v", err)
+			leadScore = 0
+			category = "cold"
+		} else if scoringOutput.ScoringData != nil {
+			leadScore = scoringOutput.ScoringData.TotalScore
+			category = scoringOutput.ScoringData.Category
+
+			// Actualizar lead con scoring detallado
+			lead := &models.Lead{
+				SessionID:    session.SessionID,
+				Channel:      session.Channel,
+				Score:        leadScore,
+				Category:     category,
+				LastMessage:  req.Message,
+				CreatedAt:    session.CreatedAt,
+				UpdatedAt:    time.Now(),
+			}
+			c.sessionService.CreateOrUpdateLead(lead)
+
+			log.Printf("✅ Score calculado: %d/100 - Categoría: %s", leadScore, category)
+		}
+	} else {
+		// Score provisional para conversaciones cortas
+		leadScore = session.LeadScore
+		category = session.Category
+		if category == "" {
+			category = "cold"
 		}
 	}
 
 	// Actualizar score en sesión
-	c.sessionService.UpdateScore(session.SessionID, scoreResponse.Score, scoreResponse.Category)
-
-	// Crear o actualizar lead
-	lead := &models.Lead{
-		SessionID:    session.SessionID,
-		Channel:      session.Channel,
-		Score:        scoreResponse.Score,
-		Category:     scoreResponse.Category,
-		Urgency:      scoreResponse.Urgency,
-		Budget:       scoreResponse.Budget,
-		BusinessType: scoreResponse.BusinessType,
-		Reasons:      scoreResponse.Reasons,
-		LastMessage:  req.Message,
-	}
-	c.sessionService.CreateOrUpdateLead(lead)
+	c.sessionService.UpdateScore(session.SessionID, leadScore, category)
 
 	// Responder
 	response := models.ChatResponse{
 		Success:   true,
 		SessionID: session.SessionID,
-		Reply:     reply,
-		LeadScore: scoreResponse.Score,
-		Category:  scoreResponse.Category,
+		Reply:     finalReply,
+		LeadScore: leadScore,
+		Category:  category,
 		Timestamp: time.Now(),
 	}
 
@@ -102,13 +181,64 @@ func (c *ChatController) GetScore(ctx *gin.Context) {
 		return
 	}
 
-	scoreResponse, err := c.geminiService.CalculateScore(req.SessionID)
+	// Obtener sesión
+	session := c.sessionService.GetSession(req.SessionID)
+	if session == nil {
+		ctx.JSON(http.StatusNotFound, gin.H{
+			"success": false,
+			"error":   "Sesión no encontrada",
+		})
+		return
+	}
+
+	// Usar ScoringAgent para calcular score detallado
+	agentInput := &agents.AgentInput{
+		Message:             "Calcular scoring completo",
+		SessionID:           session.SessionID,
+		Channel:             session.Channel,
+		ConversationHistory: session.Messages,
+	}
+
+	scoringOutput, err := c.scoringAgent.Process(context.Background(), agentInput)
 	if err != nil {
 		ctx.JSON(http.StatusInternalServerError, gin.H{
 			"success": false,
 			"error":   "Error al calcular score: " + err.Error(),
 		})
 		return
+	}
+
+	if scoringOutput.ScoringData == nil {
+		ctx.JSON(http.StatusInternalServerError, gin.H{
+			"success": false,
+			"error":   "No se pudo generar scoring",
+		})
+		return
+	}
+
+	// Construir respuesta en formato compatible
+	scoreResponse := models.ScoreResponse{
+		Success: true,
+		Score:   scoringOutput.ScoringData.TotalScore,
+		Category: scoringOutput.ScoringData.Category,
+		Reasons: []string{
+			scoringOutput.ScoringData.AccionRecomendada,
+			"Tiempo contacto: " + scoringOutput.ScoringData.TiempoContacto,
+			"Seguimiento: " + scoringOutput.ScoringData.TipoSeguimiento,
+		},
+	}
+
+	// Agregar boosts y penalizaciones a reasons
+	if len(scoringOutput.ScoringData.Boosts) > 0 {
+		for _, boost := range scoringOutput.ScoringData.Boosts {
+			scoreResponse.Reasons = append(scoreResponse.Reasons, "✅ "+boost)
+		}
+	}
+
+	if len(scoringOutput.ScoringData.Penalizaciones) > 0 {
+		for _, penalty := range scoringOutput.ScoringData.Penalizaciones {
+			scoreResponse.Reasons = append(scoreResponse.Reasons, "⚠️ "+penalty)
+		}
 	}
 
 	ctx.JSON(http.StatusOK, scoreResponse)

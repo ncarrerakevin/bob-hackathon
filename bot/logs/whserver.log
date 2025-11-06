@@ -2056,3 +2056,19 @@
 2025/11/06 00:25:16 [INFO] event type chat_presence dir  chat 280715254067228@s.whatsapp.net sender 280715254067228@lid msg_id 
 2025/11/06 00:25:16 [INFO] event type chat_presence dir  chat 280715254067228@s.whatsapp.net sender 280715254067228@lid msg_id 
 2025/11/06 00:25:16 [INFO] event_any type chat_presence chat 280715254067228@s.whatsapp.net from 280715254067228@lid
+2025/11/06 00:26:33 [INFO] event type chat_presence dir  chat 280715254067228@s.whatsapp.net sender 280715254067228@lid msg_id 
+2025/11/06 00:26:34 [INFO] event type message dir in chat 51977425547@s.whatsapp.net sender 51977425547:75@s.whatsapp.net msg_id 3EB0548CAEA9E1E71B48B3
+2025/11/06 00:26:34 [INFO] markread_ok chat 51977425547@s.whatsapp.net msg_id 3EB0548CAEA9E1E71B48B3 t_ms 12
+2025/11/06 00:26:34 [INFO] agg_window_start msg ventana de espera de mensajes inicializada, esperando chat 51977425547@s.whatsapp.net ventana_seg 5 mensajes_acumulados 0
+2025/11/06 00:26:34 [INFO] agg_window_reset_message msg detectado nuevo mensaje dentro de la ventana de espera de mensajes, reiniciando tiempo de espera chat 51977425547@s.whatsapp.net ventana_seg 5 mensajes_acumulados 1
+2025/11/06 00:26:34 [INFO] message chat 51977425547@s.whatsapp.net from 51977425547:75@s.whatsapp.net text hola text_len 4
+2025/11/06 00:26:43 [INFO] bob_backend_reply from 51977425547:75@s.whatsapp.net score 0 category cold reply_len 174
+2025/11/06 00:26:48 [INFO] event type message dir out chat 51977425547@s.whatsapp.net sender  msg_id 3EB08424ABA24039BC1618
+2025/11/06 00:26:48 [INFO] filtered reason direction_out chat 51977425547@s.whatsapp.net
+2025/11/06 00:26:48 [INFO] reply_bob_backend chat 51977425547@s.whatsapp.net count 1 reply_len 174 reply_preview ¡Hola! Bienvenido a BOB Subastas. Soy tu Agente Orquestador. ¿En qué puedo ayudarte hoy? Por ejemplo, puedes preguntar s… t_pre_delay_ms 900 t_typing_ms 4000
+2025/11/06 00:26:48 [INFO] event type receipt dir  chat 51977425547@s.whatsapp.net sender  msg_id 
+2025/11/06 00:26:48 [INFO] filtered reason filter_chain_reject dir  chat 51977425547@s.whatsapp.net from 
+2025/11/06 00:26:48 [INFO] event type receipt dir  chat 51977425547@s.whatsapp.net sender  msg_id 
+2025/11/06 00:26:48 [INFO] filtered reason filter_chain_reject dir  chat 51977425547@s.whatsapp.net from 
+2025/11/06 00:26:49 [INFO] event type receipt dir  chat 280715254067228@s.whatsapp.net sender  msg_id 
+2025/11/06 00:26:49 [INFO] filtered reason filter_chain_reject dir  chat 280715254067228@s.whatsapp.net from 

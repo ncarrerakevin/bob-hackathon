@@ -458,3 +458,5 @@
 {"event_type":"receipt","event_raw":null,"chat_jid":"280715254067228@s.whatsapp.net","message_ids":["3EB0AF814570BBBA79409D"],"extra":{"lang":"es","tenant":"acme"},"at":"2025-11-06T05:23:33Z"}
 {"event_type":"chat_presence","event_raw":null,"chat_jid":"280715254067228@s.whatsapp.net","sender_jid":"280715254067228@lid","extra":{"media":"","state":"composing"},"at":"2025-11-06T05:25:16Z"}
 {"event_type":"chat_presence","event_raw":null,"chat_jid":"280715254067228@s.whatsapp.net","sender_jid":"280715254067228@lid","extra":{"media":"","state":"paused"},"at":"2025-11-06T05:25:16Z"}
+{"event_type":"chat_presence","event_raw":null,"chat_jid":"280715254067228@s.whatsapp.net","sender_jid":"280715254067228@lid","extra":{"media":"","state":"composing"},"at":"2025-11-06T05:26:33Z"}
+{"event_type":"receipt","event_raw":null,"chat_jid":"280715254067228@s.whatsapp.net","message_ids":["3EB08424ABA24039BC1618"],"extra":{"lang":"es","tenant":"acme"},"at":"2025-11-06T05:26:49Z"}

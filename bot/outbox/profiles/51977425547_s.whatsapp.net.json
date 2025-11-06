@@ -6,7 +6,7 @@
     "out.contacts_ndjson": "outbox/contacts/51977425547_s.whatsapp.net.ndjson"
   },
   "first_seen": "2025-11-02T19:31:56.486561522-05:00",
-  "last_conn": "2025-11-06T00:23:23.290914351-05:00",
+  "last_conn": "2025-11-06T00:26:34.639731201-05:00",
   "last_chat": "51977425547@s.whatsapp.net",
   "last_text": "hola",
   "media": {
@@ -39,10 +39,10 @@
     "until": "0001-01-01T00:00:00Z"
   },
   "metrics": {
-    "msg_in": 7,
-    "msg_out": 6,
-    "last_msg_at": "2025-11-06T00:23:31.546736943-05:00",
-    "last_msg_id": "3EB0601F54B555CE9F78DD",
+    "msg_in": 8,
+    "msg_out": 7,
+    "last_msg_at": "2025-11-06T00:26:48.063566241-05:00",
+    "last_msg_id": "3EB0548CAEA9E1E71B48B3",
     "streak_days": 1,
     "streak_last_day": "2025-11-06"
   }

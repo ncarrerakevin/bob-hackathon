@@ -18,6 +18,9 @@ func main() {
 	// Cargar configuración
 	config.LoadConfig()
 
+	// Configurar modo Gin (release o debug)
+	gin.SetMode(gin.ReleaseMode)
+
 	// Inicializar servicios
 	log.Println("Inicializando servicios...")
 	services.GetFAQService()
@@ -25,8 +28,13 @@ func main() {
 	services.GetSessionService()
 	services.GetGeminiService()
 
-	// Crear router
-	router := gin.Default()
+	// Crear router con middleware manual
+	router := gin.New()
+	router.Use(gin.Logger())
+	router.Use(gin.Recovery())
+
+	// Configurar trusted proxies (solo localhost en desarrollo)
+	router.SetTrustedProxies(nil)
 
 	// Configurar CORS
 	corsOrigins := strings.Split(config.AppConfig.CORSOrigins, ",")

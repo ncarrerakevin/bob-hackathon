@@ -4,6 +4,7 @@ import (
 	"bob-hackathon/internal/agents"
 	"bob-hackathon/internal/models"
 	"bob-hackathon/internal/services"
+	"bob-hackathon/internal/utils"
 	"context"
 	"log"
 	"net/http"
@@ -56,6 +57,36 @@ func (c *ChatController) SendMessage(ctx *gin.Context) {
 		ctx.JSON(http.StatusBadRequest, gin.H{
 			"success": false,
 			"error":   "Datos inválidos: " + err.Error(),
+		})
+		return
+	}
+
+	// VALIDACIÓN Y SANITIZACIÓN DE INPUTS
+	// 1. Validar y sanitizar mensaje
+	sanitizedMessage, err := utils.ValidateAndSanitizeMessage(req.Message)
+	if err != nil {
+		ctx.JSON(http.StatusBadRequest, gin.H{
+			"success": false,
+			"error":   err.Error(),
+		})
+		return
+	}
+	req.Message = sanitizedMessage
+
+	// 2. Validar sessionID
+	if err := utils.ValidateSessionID(req.SessionID); err != nil {
+		ctx.JSON(http.StatusBadRequest, gin.H{
+			"success": false,
+			"error":   err.Error(),
+		})
+		return
+	}
+
+	// 3. Validar channel
+	if err := utils.ValidateChannel(req.Channel); err != nil {
+		ctx.JSON(http.StatusBadRequest, gin.H{
+			"success": false,
+			"error":   err.Error(),
 		})
 		return
 	}
@@ -202,6 +233,15 @@ func (c *ChatController) GetScore(ctx *gin.Context) {
 		return
 	}
 
+	// Validar sessionID
+	if err := utils.ValidateSessionID(req.SessionID); err != nil {
+		ctx.JSON(http.StatusBadRequest, gin.H{
+			"success": false,
+			"error":   err.Error(),
+		})
+		return
+	}
+
 	// Obtener sesión
 	session := c.sessionService.GetSession(req.SessionID)
 	if session == nil {
@@ -268,6 +308,15 @@ func (c *ChatController) GetScore(ctx *gin.Context) {
 func (c *ChatController) GetHistory(ctx *gin.Context) {
 	sessionID := ctx.Param("sessionId")
 
+	// Validar sessionID
+	if err := utils.ValidateSessionID(sessionID); err != nil {
+		ctx.JSON(http.StatusBadRequest, gin.H{
+			"success": false,
+			"error":   err.Error(),
+		})
+		return
+	}
+
 	session := c.sessionService.GetSession(sessionID)
 	if session == nil {
 		ctx.JSON(http.StatusNotFound, gin.H{
@@ -285,7 +334,16 @@ func (c *ChatController) GetHistory(ctx *gin.Context) {
 }
 
 func (c *ChatController) DeleteSession(ctx *gin.Context) {
-	_ = ctx.Param("sessionId") // sessionID no usado aún
+	sessionID := ctx.Param("sessionId")
+
+	// Validar sessionID
+	if err := utils.ValidateSessionID(sessionID); err != nil {
+		ctx.JSON(http.StatusBadRequest, gin.H{
+			"success": false,
+			"error":   err.Error(),
+		})
+		return
+	}
 
 	// Por ahora solo retornamos éxito
 	// Se puede implementar eliminación si es necesario

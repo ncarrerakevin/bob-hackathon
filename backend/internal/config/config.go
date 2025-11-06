@@ -15,6 +15,7 @@ type Config struct {
 	CORSOrigins     string
 	FrontendURL     string
 	DataDir         string
+	AdminAPIKey     string
 }
 
 var AppConfig *Config
@@ -33,10 +34,17 @@ func LoadConfig() {
 		CORSOrigins:   getEnv("CORS_ORIGINS", "http://localhost:5173,http://localhost:3000"),
 		FrontendURL:   getEnv("FRONTEND_URL", "http://localhost:5173"),
 		DataDir:       getEnv("DATA_DIR", "data"),
+		AdminAPIKey:   getEnv("ADMIN_API_KEY", ""),
 	}
 
 	if AppConfig.GeminiAPIKey == "" {
 		log.Fatal("GEMINI_API_KEY es requerido")
+	}
+
+	if AppConfig.AdminAPIKey == "" {
+		log.Println("⚠️  WARNING: ADMIN_API_KEY not set - Admin endpoints will be UNPROTECTED!")
+	} else {
+		log.Println("✅ Admin API protection enabled")
 	}
 
 	log.Printf("Configuración cargada - Puerto: %s, Modelo: %s, DataDir: %s", AppConfig.Port, AppConfig.GeminiModel, AppConfig.DataDir)

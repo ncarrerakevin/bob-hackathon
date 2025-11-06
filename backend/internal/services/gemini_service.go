@@ -9,6 +9,7 @@ import (
 	"log"
 	"strings"
 	"sync"
+	"time"
 
 	"github.com/google/generative-ai-go/genai"
 	"google.golang.org/api/option"
@@ -50,7 +51,9 @@ func (g *GeminiService) ProcessMessage(sessionID, userMessage string) (string, e
 	g.mu.Lock()
 	defer g.mu.Unlock()
 
-	ctx := context.Background()
+	// Crear contexto con timeout de 30 segundos
+	ctx, cancel := context.WithTimeout(context.Background(), 30*time.Second)
+	defer cancel()
 
 	// Obtener historial de conversación
 	sessionService := GetSessionService()
@@ -100,7 +103,9 @@ func (g *GeminiService) CalculateScore(sessionID string) (*models.ScoreResponse,
 	g.mu.Lock()
 	defer g.mu.Unlock()
 
-	ctx := context.Background()
+	// Crear contexto con timeout de 30 segundos
+	ctx, cancel := context.WithTimeout(context.Background(), 30*time.Second)
+	defer cancel()
 
 	// Obtener historial de conversación
 	sessionService := GetSessionService()

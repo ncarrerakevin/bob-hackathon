@@ -3,6 +3,7 @@ package main
 import (
 	"bob-hackathon/internal/config"
 	"bob-hackathon/internal/controllers"
+	"bob-hackathon/internal/middleware"
 	"bob-hackathon/internal/models"
 	"bob-hackathon/internal/services"
 	"fmt"
@@ -118,8 +119,9 @@ func main() {
 	router.GET("/api/vehicles", leadController.GetVehicles)
 	router.GET("/api/vehicles/:id", leadController.GetVehicleByID)
 
-	// Rutas de Admin
+	// Rutas de Admin (protegidas con autenticación)
 	adminRoutes := router.Group("/api/admin")
+	adminRoutes.Use(middleware.AdminAuth())
 	{
 		// FAQs management
 		adminRoutes.POST("/faqs/upload", adminController.UploadFAQs)

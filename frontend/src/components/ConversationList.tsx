@@ -6,7 +6,7 @@ export default function ConversationList() {
   const [conversations, setConversations] = useState();
   const getConversations = async () => {
     try {
-      const response = await fetch("/api/leads", {
+      const response = await fetch("http://localhost:3000/api/leads", {
         method: "GET",
         headers: {
           "Content-Type": "application/json",

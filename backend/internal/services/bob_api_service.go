@@ -14,11 +14,12 @@ import (
 )
 
 type BOBAPIService struct {
-	baseURL      string
-	cache        []models.Vehicle
-	lastFetch    time.Time
+	baseURL       string
+	cache         []models.Vehicle
+	lastFetch     time.Time
 	cacheDuration time.Duration
-	mu           sync.RWMutex
+	httpClient    *http.Client
+	mu            sync.RWMutex
 }
 
 var bobAPIServiceInstance *BOBAPIService
@@ -30,6 +31,9 @@ func GetBOBAPIService() *BOBAPIService {
 			baseURL:       config.AppConfig.BOBAPIBaseURL,
 			cache:         []models.Vehicle{},
 			cacheDuration: 5 * time.Minute,
+			httpClient: &http.Client{
+				Timeout: 10 * time.Second,
+			},
 		}
 	})
 	return bobAPIServiceInstance
@@ -47,11 +51,18 @@ func (b *BOBAPIService) GetSublots(forceRefresh bool) ([]models.Vehicle, error) 
 
 	// Fetch desde API
 	url := fmt.Sprintf("%s/sublots/details", b.baseURL)
-	resp, err := http.Get(url)
+	resp, err := b.httpClient.Get(url)
 	if err != nil {
+		log.Printf("Error obteniendo vehiculos de BOB API: %v", err)
 		return nil, fmt.Errorf("error al obtener sublots: %w", err)
 	}
 	defer resp.Body.Close()
+
+	// Verificar status code
+	if resp.StatusCode != http.StatusOK {
+		log.Printf("BOB API devolvio status %d", resp.StatusCode)
+		return nil, fmt.Errorf("bob api devolvio status %d", resp.StatusCode)
+	}
 
 	body, err := io.ReadAll(resp.Body)
 	if err != nil {

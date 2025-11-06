@@ -38,8 +38,10 @@ func (a *AuctionAgent) Name() string {
 func (a *AuctionAgent) Process(ctx context.Context, input *AgentInput) (*AgentOutput, error) {
 	vehicles, err := a.bobAPIService.GetSublots(false)
 	if err != nil {
+		// Si hay error en la API, retornar respuesta de fallback pero sin error
+		// para que el sistema siga funcionando
 		return &AgentOutput{
-			Response: "Lo siento, tuve un problema consultando las subastas disponibles. ¿Podrías intentar de nuevo?",
+			Response: "En este momento estoy teniendo dificultades para consultar el inventario de vehículos. Te puedo ayudar con información general sobre nuestro proceso de subastas. ¿Tienes alguna pregunta específica sobre cómo funciona?",
 		}, nil
 	}
 

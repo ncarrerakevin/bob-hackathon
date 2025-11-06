@@ -200,6 +200,8 @@ func (s *SessionService) GetLeadsStats() *models.LeadStats {
 			stats.Warm++
 		case "cold":
 			stats.Cold++
+		case "discarded":
+			stats.Discarded++
 		}
 
 		stats.ByChannel[lead.Channel]++

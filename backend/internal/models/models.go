@@ -96,6 +96,7 @@ type LeadStats struct {
 	Hot        int     `json:"hot"`
 	Warm       int     `json:"warm"`
 	Cold       int     `json:"cold"`
+	Discarded  int     `json:"discarded"`
 	AvgScore   float64 `json:"avgScore"`
 	ByChannel  map[string]int `json:"byChannel"`
 }

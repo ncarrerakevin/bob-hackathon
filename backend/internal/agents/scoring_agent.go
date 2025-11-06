@@ -6,6 +6,7 @@ import (
 	"context"
 	"encoding/json"
 	"fmt"
+	"log"
 	"strings"
 
 	"github.com/google/generative-ai-go/genai"
@@ -294,9 +295,76 @@ func (s *ScoringAgent) parseScoring(responseText string) *models.ScoringData {
 		"contexto_compra":         scoring.Dimension7.Score,
 	}
 
+	// Calcular score real sumando dimensiones
+	calculatedScore := 0
+	for _, score := range dimensionScores {
+		calculatedScore += score
+	}
+
+	// Agregar boosts
+	for _, boost := range scoring.Boosts {
+		// Extraer puntos del formato "nombre: +X puntos"
+		if strings.Contains(boost, "+") {
+			parts := strings.Split(boost, "+")
+			if len(parts) >= 2 {
+				pointsStr := strings.TrimSpace(strings.Split(parts[1], " ")[0])
+				if points, err := fmt.Sscanf(pointsStr, "%d", new(int)); points > 0 && err == nil {
+					var p int
+					fmt.Sscanf(pointsStr, "%d", &p)
+					calculatedScore += p
+				}
+			}
+		}
+	}
+
+	// Restar penalizaciones
+	for _, penalty := range scoring.Penalizaciones {
+		// Extraer puntos del formato "nombre: -X puntos"
+		if strings.Contains(penalty, "-") {
+			parts := strings.Split(penalty, "-")
+			if len(parts) >= 2 {
+				pointsStr := strings.TrimSpace(strings.Split(parts[1], " ")[0])
+				if points, err := fmt.Sscanf(pointsStr, "%d", new(int)); points > 0 && err == nil {
+					var p int
+					fmt.Sscanf(pointsStr, "%d", &p)
+					calculatedScore -= p
+				}
+			}
+		}
+	}
+
+	// Validar score
+	finalScore := scoring.TotalScore
+	if finalScore != calculatedScore {
+		log.Printf("⚠️ Warning: Gemini score %d != calculated %d, usando calculado", finalScore, calculatedScore)
+		finalScore = calculatedScore
+	}
+
+	// Limitar score a rango válido 0-100
+	if finalScore > 100 {
+		log.Printf("⚠️ Warning: Score %d excede 100, limitando", finalScore)
+		finalScore = 100
+	}
+	if finalScore < 0 {
+		log.Printf("⚠️ Warning: Score %d menor que 0, limitando", finalScore)
+		finalScore = 0
+	}
+
+	// Recalcular categoría basada en score validado
+	category := scoring.Category
+	if finalScore >= 85 {
+		category = "hot"
+	} else if finalScore >= 65 {
+		category = "warm"
+	} else if finalScore >= 45 {
+		category = "cold"
+	} else {
+		category = "discarded"
+	}
+
 	return &models.ScoringData{
-		TotalScore:         scoring.TotalScore,
-		Category:           scoring.Category,
+		TotalScore:         finalScore,
+		Category:           category,
 		DimensionScores:    dimensionScores,
 		Boosts:             scoring.Boosts,
 		Penalizaciones:     scoring.Penalizaciones,
@@ -333,7 +401,7 @@ func (s *ScoringAgent) generateScoringMessage(data *models.ScoringData) string {
 	}
 
 	msg := fmt.Sprintf("%s **Lead Score: %d/100** - Categoría: %s\n\n",
-		categoryEmoji, data.TotalScore, strings.ToUpper(data.Category))
+		categoryEmoji, data.TotalScore, data.Category)
 
 	msg += fmt.Sprintf("**Acción recomendada:** %s\n", data.AccionRecomendada)
 	msg += fmt.Sprintf("**Tiempo de contacto:** %s\n", data.TiempoContacto)

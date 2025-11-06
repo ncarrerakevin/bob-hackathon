@@ -129,8 +129,29 @@ func (c *ChatController) SendMessage(ctx *gin.Context) {
 			leadScore = 0
 			category = "cold"
 		} else if scoringOutput.ScoringData != nil {
-			leadScore = scoringOutput.ScoringData.TotalScore
-			category = scoringOutput.ScoringData.Category
+			rawScore := scoringOutput.ScoringData.TotalScore
+
+			// Aplicar smoothing temporal para evitar saltos bruscos
+			existingLead := c.sessionService.GetLead(session.SessionID)
+			if existingLead != nil && existingLead.Score > 0 {
+				// Smoothing: 70% score previo + 30% score nuevo
+				prevScore := existingLead.Score
+				leadScore = int(float64(prevScore)*0.7 + float64(rawScore)*0.3)
+				log.Printf("📈 Smoothing aplicado: %d (prev) → %d (raw) → %d (final)", prevScore, rawScore, leadScore)
+			} else {
+				leadScore = rawScore
+			}
+
+			// Recalcular categoría basada en score con smoothing
+			if leadScore >= 85 {
+				category = "hot"
+			} else if leadScore >= 65 {
+				category = "warm"
+			} else if leadScore >= 45 {
+				category = "cold"
+			} else {
+				category = "discarded"
+			}
 
 			// Actualizar lead con scoring detallado
 			lead := &models.Lead{
